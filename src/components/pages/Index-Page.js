@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import RegisterHeader from "../RegisterHeader";
 import StdBtn from "../sntBTN";
+import SideBar from "../SideBar";
 import '../../css/IndexPage.css';
-import { async } from "q";
 
 class IndexPage extends Component
 {
@@ -148,6 +148,7 @@ class IndexPage extends Component
                          (<StdBtn callback={this.saveData} operation='+' text="Guardar"/>);
         return(
             <React.Fragment>
+                <SideBar/>
                 <RegisterHeader current={this.state.current}/>
                 <div id="inputs-container">
                     {content}

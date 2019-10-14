@@ -1,0 +1,68 @@
+@import url("colort.css");
+/*
+ 
+       _     _      _                
+   ___(_) __| | ___| |__   __ _ _ __ 
+  / __| |/ _` |/ _ \ '_ \ / _` | '__|
+  \__ \ | (_| |  __/ |_) | (_| | |   
+  |___/_|\__,_|\___|_.__/ \__,_|_|   
+                                     
+ 
+*/
+
+#side-nav-bar{
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: var(--dark-blue); 
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 3%; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+#side-nav-controls{
+    padding-left: 5%;
+    padding-bottom: 3%;
+    border-bottom: 1px solid var(--white-blue);
+}
+
+#side-nav-controls span{
+    cursor: pointer;
+    color: white;
+    transition: all 0.2s ease-in-out;
+}
+
+#side-nav-controls:hover span{
+    color: var(--green);
+}
+
+#side-nav-backarrow{
+    font-size: 1.4rem;
+    margin-right: 5%;
+}
+
+#side-nav-logo{
+    font-size: 2.3rem;
+    font-family: 'Roboto Mono';
+}
+
+#nav-options{
+    font-family: 'Raleway';
+    font-size: 1.6rem;
+    margin: 8% 0 0 8%;
+    color: var(--grey-font);
+}
+
+.nav-option-container{
+    cursor: pointer;
+    margin-top: 4%;
+    transition: all 0.1s ease-in-out;
+}
+
+.nav-option-container:hover{
+    color: white;
+    font-size: 1.8rem;
+}

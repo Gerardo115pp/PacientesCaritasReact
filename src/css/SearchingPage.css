@@ -1,0 +1,14 @@
+@import url("colort.css");
+
+
+/*=============================================
+=            padded search bar            =
+=============================================*/
+
+.padded-searchbar-container{
+    display: flex;
+    margin: 7% 0 0;
+    justify-content: center;
+}
+
+

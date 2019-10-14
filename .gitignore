@@ -24,4 +24,4 @@ yarn-error.log*
 
 #connect.php
 
-./src/php/connect.php
+**/php/connect.php

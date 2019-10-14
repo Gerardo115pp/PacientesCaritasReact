@@ -1,13 +1,4 @@
-:root{
-    --white-blue: #BDEEFF;
-    --blue: #476AFF;
-    --dim-blue: #418DE8;
-    --neutral: #54CFFF;
-    --dim-green: #41E5E8;
-    --green: #47FFCF;
-    --dim-background: rgba(230, 230, 230, 0.85);
-    --grey-font: rgba(161, 161, 161, 0.85);
-}
+@import url("colort.css");
 
 
 /*=============================================
