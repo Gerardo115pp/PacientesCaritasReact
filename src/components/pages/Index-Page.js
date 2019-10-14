@@ -138,7 +138,7 @@ class IndexPage extends Component
         }
         else
         {
-            alert("Profavor agrege cualquier cosa en el campo de nombre, esto es solo para que pueda servir de identificador");
+            alert("Porfavor agregue cualquier cosa en el campo de nombre, esto es solo para que pueda servir de identificador");
         }
     }
 
