@@ -138,7 +138,7 @@ class IndexPage extends Component
         }
         else
         {
-            alert("Profavor agrege cualquier cosa en el campo de nombre, esto es solo para que pueda servir de identificador");
+            alert("Porfavor agregue cualquier cosa en el campo de nombre, esto es solo para que pueda servir de identificador");
         }
     }
 
@@ -205,7 +205,7 @@ class IndexPage extends Component
             case 3:
 
                 const finish_text = this.state.finished ? "Registro Terminado, Ahora puede guradar el Registro" :
-                    "Profavor llene el campo del nombre con cualquier cosa";
+                    "Porfavor llene el campo del nombre con cualquier cosa";
                 
                 const class_color = this.state.finished ? "blue" : "red";
                 const emoji = this.state.finished ? <i className="far fa-smile-beam"></i> : <i className="far fa-meh"></i>; 
