@@ -1,14 +1,47 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as resultsActions from '../actions/resultsActions';
+import historial from './historial';
 import '../css/SearchBar.css';
 
 class SearchBar extends Component
 {
+
+    state = {
+        content:  ""
+    }
+
+    writeingOnSearchBarHandler = e => {
+        const search_bar_input = document.getElementById('search-bar-input');
+        this.setState({
+            content: search_bar_input.value
+        })
+    }
+
+    sendSearch = () => {
+        const { content } = this.state;
+        let forma = new FormData();
+        forma.append('name_array',JSON.stringify(content));
+
+        const request =  new Request("http://caritasong.000webhostapp.com/php/searchEngine.php", { method: 'POST', body: forma});
+        fetch(request)
+            .then(promise => promise.json())
+            .then(response => {
+                this.props.setResults(response);
+            })
+
+    }
+
+    goToMain = () =>{
+        historial.push("/");
+    }
+
     render(){
         return(
             <div id="search-bar-container">
-                <input placeholder="Nombre del paciente.." type="text" id="search-bar-input"/>
+                <input onChange={ this.writeingOnSearchBarHandler } placeholder="Nombre del paciente.." type="text" id="search-bar-input"/>
                 <div id="search-bar-controls">
-                    <span name='search-btn' className="seatch-bar-btn"><i className="fas fa-search"></i></span>
+                    <span onClick={ this.sendSearch } name='search-btn' className="seatch-bar-btn"><i className="fas fa-search"></i></span>
                     <span name='settings-btn' className="seatch-bar-btn"><i className="fas fa-tasks"></i></span>
                 </div>
             </div>
@@ -16,4 +49,10 @@ class SearchBar extends Component
     }
 }
 
-export default SearchBar;
+const mapStateToProps = reducers => {
+    return {
+        results: reducers.resultsReducer
+    }
+}
+
+export default connect(mapStateToProps,resultsActions)(SearchBar);

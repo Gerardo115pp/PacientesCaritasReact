@@ -1,4 +1,20 @@
+/*
+ 
+   ____                      _     _             ____                  
+  / ___|  ___  __ _ _ __ ___| |__ (_)_ __   __ _|  _ \ __ _  __ _  ___ 
+  \___ \ / _ \/ _` | '__/ __| '_ \| | '_ \ / _` | |_) / _` |/ _` |/ _ \
+   ___) |  __/ (_| | | | (__| | | | | | | | (_| |  __/ (_| | (_| |  __/
+  |____/ \___|\__,_|_|  \___|_| |_|_|_| |_|\__, |_|   \__,_|\__, |\___|
+                                           |___/            |___/      
+ 
+*/
+
 @import url("colort.css");
+
+
+
+/* TODO: debo ver como agregar la linea azul al result container cuando hay un border-radius */
+
 
 
 /*=============================================
@@ -10,5 +26,44 @@
     margin: 7% 0 0;
     justify-content: center;
 }
+
+
+/*=============================================
+=            Results            =
+=============================================*/
+
+
+#results-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    height: 20rem;
+    margin: 3% auto 0;
+}
+
+
+.result-container{
+    cursor: pointer;
+    display: flex;
+    width: 60%;
+    height: 18%;
+    align-items: center;
+    margin-top: 2%;
+    /* border-radius: 15px; */
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.281), inset 0 -7px 0 var(--blue);
+    transition: all 0.4s ease;
+}
+
+.result-container:hover{
+    transform: scale(1.1);
+}
+
+.result-text{
+    color: var(--darker-font);
+    margin-left: 5%;
+}
+
+
 
 

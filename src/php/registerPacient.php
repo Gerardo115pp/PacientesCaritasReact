@@ -1,4 +1,5 @@
 <?php
+    include 'nameSound.php';
     $json_string = filter_var($_POST["json"],FILTER_SANITIZE_STRING);
     $json_string = str_replace('&#34;','"',$json_string);
     $json_data = json_decode($json_string, true);
@@ -20,7 +21,7 @@
     function createPatient($json_data, $uuid, $conn)
     {
         $stmt = $conn->stmt_init();
-        $sql = "INSERT INTO pacientes(uuid, name, address, age, phone, gender) VALUES (?,?,?,?,?,?)";
+        $sql = "INSERT INTO pacientes(uuid, name, address, age, phone, gender, f_sound, s_sound, t_sound) VALUES (?,?,?,?,?,?,?,?,?)";
         if(mysqli_stmt_prepare($stmt,$sql))
         {
             $name = isset($json_data["name"]) ? $json_data["name"] : "";
@@ -28,7 +29,8 @@
             $age = isset($json_data["age"]) ? $json_data["age"] : 0;
             $phone = isset($json_data["phone"]) ? $json_data["phone"] : "no se especifico";
             $gender = $json_data["gender"];
-            mysqli_stmt_bind_param($stmt,"sssiss",$uuid,$name,$address,$age,$phone,$gender);
+            $sound = getNameSound($name);
+            mysqli_stmt_bind_param($stmt,"sssisssss",$uuid,$name,$address,$age,$phone,$gender,$sound[0], $sound[1], $sound[2]);
             mysqli_stmt_execute($stmt);
         }
     }

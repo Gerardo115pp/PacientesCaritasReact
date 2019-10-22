@@ -4,6 +4,14 @@ import '../css/RegisterHeader.css'
 
 class RegisterHeader extends Component
 {
+
+    clickHandler = e => {
+        const { callback } = this.props;
+        const element = e.currentTarget;
+        const key = element.getAttribute('llave');
+        callback(key);
+    }
+
     render(){
         const { current } = this.props;
         const sections = ["Datos Personales", "Exploracion y antecedentes", "Notas", "Terminado"];
@@ -13,13 +21,13 @@ class RegisterHeader extends Component
             if ( h !== current )
             {
                 steps.push(
-                    (<div key={h} className="step-container"><span className="step-text">{sections[h]}</span></div>)
+                    (<div key={h} llave={h} onClick={this.clickHandler} className="step-container"><span className="step-text">{sections[h]}</span></div>)
                 )
             }
             else
             {
                 steps.push(
-                    (<div key={h} className="step-container current-step"><span className="step-text">{sections[h]}</span></div>)
+                    (<div key={h} llave={h} onClick={this.clickHandler} className="step-container current-step"><span className="step-text">{sections[h]}</span></div>)
                 )
             }
         } 
