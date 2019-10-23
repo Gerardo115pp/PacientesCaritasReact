@@ -13,7 +13,7 @@ class SideBar extends Component
         return(
             <div id="side-nav-bar">
                 <div onClick={this.backArrowClickHandler} id="side-nav-controls">
-                    <span id="side-nav-backarrow"><i className="fas fa-backspace"></i></span>
+                    <span id="side-nav-backarrow"><i className="fas fa-chevron-circle-left"></i></span>
                     <span id="side-nav-logo">Caritas</span>
                 </div>
                 <div id="nav-options">

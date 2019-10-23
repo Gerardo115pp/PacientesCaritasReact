@@ -1,4 +1,18 @@
 
+
+/*=============================================
+=            Reglas generales            =
+=============================================*/
+
+body{
+    overflow-x: hidden;
+}
+
+
+/*=====  End of Reglas generales  ======*/
+
+
+
 /*----------  Remueve el icono de 000webhost  ----------*/
 img[alt="www.000webhost.com"]{
 	display: none;

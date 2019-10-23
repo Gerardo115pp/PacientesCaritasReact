@@ -142,6 +142,12 @@ class IndexPage extends Component
         }
     }
 
+    gotToTag = key => {
+        this.setState({
+            current: parseInt(key)
+        })
+    }
+
     render(){
         const content = this.viewSelector();
         const need_btn = (this.state.current !== 3) ? (<StdBtn callback={this.controlBTNHandler} operation='+' text="Siguiente"/>) :
@@ -149,7 +155,7 @@ class IndexPage extends Component
         return(
             <React.Fragment>
                 <SideBar/>
-                <RegisterHeader current={this.state.current}/>
+                <RegisterHeader callback={this.gotToTag} current={this.state.current}/>
                 <div id="inputs-container">
                     {content}
                 </div>

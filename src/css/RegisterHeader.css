@@ -34,12 +34,15 @@
     transition: all 0.1s ease-in;
 }
 
-#modalnav-btn-container:active{
+/* #modalnav-btn-container:active{
     box-shadow: inset 1px 5px 30px -7px rgba(130,130,130,0.85)
-}
+} */
 
 #modalnav-btn-container span{
     font-size: 1.8rem;
 }
 
+.step-container{
+    cursor: pointer;
+}
 
