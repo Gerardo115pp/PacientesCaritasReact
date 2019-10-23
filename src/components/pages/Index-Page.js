@@ -17,9 +17,9 @@ class IndexPage extends Component
                         <div className="input-container"><label htmlFor="name-input">Nombre</label><input onChange={this.inputDataChanged} name="name" type="text" id="name-input"/></div>
                         <div className="input-container"><label htmlFor="age-input">Edad</label><input onChange={this.inputDataChanged} type="text" name="age" id="age-input"/></div>
                         <div className="input-container"><label htmlFor="address-input">Domicilio</label><input onChange={this.inputDataChanged} type="text" name="address" id="address-input"/></div>
-                        <div className="input-container"><label htmlFor="phone-input">Telefono</label><input onChange={this.inputDataChanged}    type="text" name="phone" id="phone-input"/></div>
+                        <div className="input-container"><label htmlFor="phone-input">Teléfono</label><input onChange={this.inputDataChanged}    type="text" name="phone" id="phone-input"/></div>
                         <div className="input-container center-input">
-                            <label htmlFor="phone-input">Genero</label>
+                            <label htmlFor="phone-input">Género</label>
                             <select onChange={this.inputDataChanged} name='gender' id="gender-input">
                                 <option value="0">Hombre</option>
                                 <option value="1">Mujer</option>
@@ -40,7 +40,7 @@ class IndexPage extends Component
                         <div id="section-container">
                             <div className="input-container"><label htmlFor="alch-input">Alcholsimo</label><input onChange={this.inputDataChanged} name="alch" type="checkbox" id="alch-input"/></div>
                             <div className="input-container"><label htmlFor="taba-input">Tabaquismo</label><input onChange={this.inputDataChanged} name="taba" type="checkbox" id="taba-input"/></div>
-                            <div className="input-container"><label htmlFor="addic-input">Addiciones</label><input onChange={this.inputDataChanged} name="addic" type="checkbox" id="adic-input"/></div>
+                            <div className="input-container"><label htmlFor="addic-input">Addicciones</label><input onChange={this.inputDataChanged} name="addic" type="checkbox" id="adic-input"/></div>
                         </div>
                     </div>
                 </React.Fragment>
@@ -50,8 +50,8 @@ class IndexPage extends Component
                     <div id="view-title"><span className="view-title-container">Notas</span></div>
                     <div id="view-container">
                         <div className="input-container"><label htmlFor="iner-input">Interrogatorio</label><textarea onChange={this.inputDataChanged} name="iner" type="text" id="iner-input"/></div>
-                        <div className="input-container"><label htmlFor="diag-input">Diagnostico</label><textarea onChange={this.inputDataChanged} name="diag" type="text" id="diag-input"/></div>
-                        <div className="input-container"><label htmlFor="notas-input">Notas de evaluacion</label><textarea onChange={this.inputDataChanged} name="notas" type="text" id="notas-input"/></div>
+                        <div className="input-container"><label htmlFor="diag-input">Diagnóstico</label><textarea onChange={this.inputDataChanged} name="diag" type="text" id="diag-input"/></div>
+                        <div className="input-container"><label htmlFor="notas-input">Notas de evaluación</label><textarea onChange={this.inputDataChanged} name="notas" type="text" id="notas-input"/></div>
                         <div className="input-container"><label htmlFor="trata-input">Tratamiento y resultados</label><textarea onChange={this.inputDataChanged} name="trata" type="text" id="trata-input"/></div>
                         <div className="input-container"><label htmlFor="estudios-input">Estudios de Laboratorio</label><textarea onChange={this.inputDataChanged} name="estudios" type="text" id="estudios-input"/></div>
                         <div className="input-container"><label htmlFor="antec-input">Antecedentes Heredados Familiares</label><textarea onChange={this.inputDataChanged} name="antec" type="text" id="antec-input"/></div>
@@ -138,7 +138,7 @@ class IndexPage extends Component
         }
         else
         {
-            alert("Porfavor agregue cualquier cosa en el campo de nombre, esto es solo para que pueda servir de identificador");
+            alert("Porfavor agregue cualquier dato en el campo de nombre, es necesario como identificador.");
         }
     }
 
@@ -160,7 +160,7 @@ class IndexPage extends Component
                     {content}
                 </div>
                 <div id="steps-nav-controls">
-                    <StdBtn callback={this.controlBTNHandler} operation='-' text="Atras" color="dim-btn"/>
+                    <StdBtn callback={this.controlBTNHandler} operation='-' text="Atrás" color="dim-btn"/>
                     {need_btn}
                 </div>
             </React.Fragment>
@@ -211,7 +211,7 @@ class IndexPage extends Component
             case 3:
 
                 const finish_text = this.state.finished ? "Registro Terminado, Ahora puede guradar el Registro" :
-                    "Porfavor llene el campo del nombre con cualquier cosa";
+                    "Porfavor agregue cualquier dato en el campo de nombre, es necesario como identificador";
                 
                 const class_color = this.state.finished ? "blue" : "red";
                 const emoji = this.state.finished ? <i className="far fa-smile-beam"></i> : <i className="far fa-meh"></i>; 
