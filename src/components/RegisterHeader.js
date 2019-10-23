@@ -6,7 +6,7 @@ class RegisterHeader extends Component
 {
     render(){
         const { current } = this.props;
-        const sections = ["Datos Personales", "Exploracion y antecedentes", "Notas", "Terminado"];
+        const sections = ["Datos Personales", "Exploración y antecedentes", "Notas", "Terminado"];
         const steps = []
         for(let h = 0; h <=3; h++)
         {
