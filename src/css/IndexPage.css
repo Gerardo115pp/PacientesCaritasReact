@@ -102,7 +102,7 @@ img[alt="www.000webhost.com"]{
 
 .input-container label{
     font-family: 'Roboto Mono';
-    color: var(--grey-font);
+    color: var(--darker-font);
     margin-left: 7%;
 }
 
