@@ -39,6 +39,10 @@ img[alt="www.000webhost.com"]{
     border-right: 2px solid var(--dim-green);
 }
 
+.step-container:last-child{
+    border-right: none;
+}
+
 .step-container.current-step{
     margin: 0;
     background-color: var(--dim-green);
