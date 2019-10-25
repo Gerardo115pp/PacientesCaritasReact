@@ -1,5 +1,6 @@
 const initialState = {
-    results: []
+    results: [],
+    selected_result: null
 }
 
 export default function(state=initialState,action)
@@ -8,7 +9,13 @@ export default function(state=initialState,action)
     {
         case "SET_RESULTS":
             return{
+                ...state,
                 results: action.results
+            }
+        case "SET_SELECTED_RESULT":
+            return{
+                ...state,
+                selected_result: action.selected
             }
         default:
             return state;
