@@ -99,8 +99,45 @@
     transition: all .2s ease;
 }
 
-.d-menu-option-label{
+.d-submenu-option{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    
+}
+
+.d-submenu-option-label{
     color: white;
-    margin-right: 1%;
+}
+
+.d-submenu-option i{
+    cursor: pointer;
+}
+
+.d-submenu-option i:active{
+    color: var(--dim-green);
+}
+
+/*----------  edit attribute input  ----------*/
+
+.edit-attrib-submenu{
+    max-height: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 .3em .3em -.3em #1a1c1f inset,0 -.3em .3em -.3em #1a1c1f inset;
+    transition: all .2s ease;
+}
+
+.edit-attrib-submenu input{
+    font-family: 'Raleway';
+    background-color: var(--white-blue);
+    width: 70%;
+    padding: .7em;
+    border: none;
+    border-radius: 15px;
 }
 

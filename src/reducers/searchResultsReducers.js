@@ -17,6 +17,9 @@ export default function(state=initialState,action)
                 ...state,
                 selected_result: action.selected
             }
+        case "UPDATE_SELECTED_RESULT":
+            state.results[state.selected_result] = action.new_data;
+            return state;
         default:
             return state;
             
