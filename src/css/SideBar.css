@@ -24,6 +24,8 @@
 }
 
 #side-nav-controls{
+    display: flex;
+    align-items: center;
     padding-left: 5%;
     padding-bottom: 3%;
     border-bottom: 1px solid var(--white-blue);

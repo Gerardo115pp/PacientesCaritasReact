@@ -18,3 +18,9 @@ export const setSelected = selected => {
         selected
     }
 }
+
+export const resetStore = () => {
+    return{
+        type: "RESET"
+    }
+}

@@ -24,6 +24,7 @@
             $row["appointments"] = getAppointments($row["uuid"]);
             array_push($results_array,$row);
         }
+        $conn->close();
         echo json_encode($results_array);
     }
 

@@ -13,5 +13,6 @@
         $value_types =  ($_POST["value_type"]==="string" ? "s" : "d")."s";
         mysqli_stmt_bind_param($stmt,$value_types,$new_value,$uudi);
         mysqli_stmt_execute($stmt);
+        $conn->close();
     }
 ?>

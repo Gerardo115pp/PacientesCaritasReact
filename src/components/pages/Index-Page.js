@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import RegisterHeader from "../RegisterHeader";
 import StdBtn from "../sntBTN";
 import SideBar from "../SideBar";
+import { connect } from 'react-redux';
+import * as resultsActions from '../../actions/resultsActions';
 import '../../css/IndexPage.css';
+import historial from "../historial";
 
 class IndexPage extends Component
 {
@@ -60,7 +63,9 @@ class IndexPage extends Component
                 </React.Fragment>
             )
         }
+        this.user_to_appoint = {}
         this.state = {
+            action: 'register',
             views: inputs_displays,
             current: 0,
             finished: false,
@@ -69,6 +74,72 @@ class IndexPage extends Component
                 gender:"0"
             }
         }
+    }
+
+    praperAddApointmentAction = () => {
+        const { results, selected_result } = this.props.resultsReducer;
+        this.user_to_appoint = results[selected_result];
+        const user_data = {
+            name:this.user_to_appoint.name,
+            age:this.user_to_appoint.age,
+            gender:this.user_to_appoint.gender,
+            phone:this.user_to_appoint.phone,
+            address:this.user_to_appoint.address
+        }
+
+        return user_data;
+
+    }
+
+    componentDidMount(){
+        const { state: historial_params } = this.props.location; 
+        if(historial_params)
+        {
+            if(this.state.action !== historial_params.action)
+            {
+                switch(historial_params.action)
+                {
+                    case 'add':
+                        if(this.props.resultsReducer.selected_result !== null)
+                        {
+                            const new_view = this.state.views;
+                            const user_data = this.praperAddApointmentAction();
+                            const personal_locked = (
+                                <React.Fragment>
+                                    <div id="view-title"><span className="view-title-container">Datos Personales</span></div>
+                                        <div id="view-container">
+                                            <div className="input-container"><label htmlFor="name-input">Nombre</label><input onChange={this.inputDataChanged} name="name" type="text" id="name-input" readOnly/></div>
+                                            <div className="input-container"><label htmlFor="age-input">Edad</label><input onChange={this.inputDataChanged} type="text" name="age" id="age-input" readOnly/></div>
+                                            <div className="input-container"><label htmlFor="address-input">Domicilio</label><input onChange={this.inputDataChanged} type="text" name="address" id="address-input" readOnly/></div>
+                                            <div className="input-container"><label htmlFor="phone-input">Teléfono</label><input onChange={this.inputDataChanged}    type="text" name="phone" id="phone-input" readOnly/></div>
+                                            <div className="input-container center-input">
+                                                <label htmlFor="phone-input">Género</label>
+                                                <select onChange={this.inputDataChanged} name='gender' id="gender-input" readOnly>
+                                                    <option disabled value="0">Hombre</option>
+                                                    <option disabled value="1">Mujer</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                </React.Fragment>
+                            )
+                            this.setState({
+                                action: historial_params.action,
+                                current:1,
+                                user_data: user_data,
+                                finished: true,
+                                views:{
+                                    ...new_view,
+                                    personal: personal_locked
+                                }
+                            })
+                        }
+                        break;
+                    default:
+                        break
+                }
+            }
+        }
+
     }
 
     controlBTNHandler = async operation => {
@@ -120,7 +191,7 @@ class IndexPage extends Component
     }
 
     saveData = () => {
-        if(this.state.finished)
+        if(this.state.finished && this.state.action === 'register')
         {
             const { user_data } = this.state;
             const stringed_json = JSON.stringify(user_data);
@@ -133,6 +204,25 @@ class IndexPage extends Component
                     if(promise.ok)
                     {
                         this.resetAll();
+                    }
+                })
+        }
+        else if(this.state.finished && this.state.action === 'add')
+        {
+            const { user_data } = this.state;
+            const stringed_json = JSON.stringify(user_data);
+
+            let forma =  new FormData();
+            forma.append('user_data',stringed_json);
+            forma.append('uuid',this.user_to_appoint.uuid);
+
+            let request = new Request('http://caritasong.000webhostapp.com/php/createPacientAppointment.php',{method:'POST',body:forma});
+            fetch(request)
+                .then(promise => {
+                    if(promise.status === 200)
+                    {
+                        this.props.resetStore();
+                        historial.push('/busqueda');
                     }
                 })
         }
@@ -239,4 +329,10 @@ class IndexPage extends Component
     }
 }
 
-export default IndexPage;
+const mapStateToProps = reducers => {
+    return {
+        resultsReducer: reducers.resultsReducer
+    }
+}
+
+export default connect(mapStateToProps,resultsActions)(IndexPage);

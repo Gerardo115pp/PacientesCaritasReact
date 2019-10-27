@@ -18,6 +18,9 @@
 
 
 #d-sidebar{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     height: 100%;
     width: 0; 
     position: fixed; 
@@ -96,7 +99,7 @@
     padding: 0;
     margin: 0;
     box-shadow: 0 .3em .3em -.3em #0c0d0e inset,0 -.3em .3em -.3em #0c0d0e inset;
-    transition: all .2s ease;
+    transition: all .15s ease-in-out;
 }
 
 .d-submenu-option{
@@ -129,7 +132,7 @@
     padding: 0;
     margin: 0;
     box-shadow: 0 .3em .3em -.3em #1a1c1f inset,0 -.3em .3em -.3em #1a1c1f inset;
-    transition: all .2s ease;
+    transition: all .4s ease;
 }
 
 .edit-attrib-submenu input{
@@ -258,4 +261,63 @@
     font-family: 'Roboto Mono';
     color: var(--darker-font);
     margin: 4% 0 1% 3%;
+}
+
+
+/*=============================================
+=            paciente controls            =
+=============================================*/
+
+
+
+/*----------  contenedor de controles  ----------*/
+
+#d-sidebar-controls{
+    padding: 5%;
+    margin-bottom: 15%;
+}
+
+.d-sidebar-controls-btn{
+    display: flex;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: all .4s ease-in, transform .2s ease-in-out;
+}
+
+.d-sidebar-controls-btn:active{
+    transform: scale(0.9);
+}
+
+/*----------  Agregar consulta  ----------*/
+
+#new-consulta-btn{
+    background-color: var(--green);
+    justify-content: space-around;
+    align-items: center;
+    color: var(--dark-blue);
+    border: 2px solid var(--green);
+}
+
+#new-consulta-btn:hover{
+    color: white;
+}
+
+#new-consulta-btn i{
+    display: flex;
+    align-items: center;
+}
+
+
+/*----------  Borrar paciente  ----------*/
+
+#delete-pacient-btn{
+    color: var(--danger);
+    justify-content: center;
+    border: 3px solid var(--danger);
+    margin-top: 3%;
+}
+
+#delete-pacient-btn:hover{
+    background-color: var(--danger);
+    color: var(--dark-blue);
 }

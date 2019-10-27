@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppointmentModal from './AppointmentModal';
 import { connect } from 'react-redux';
+import historial from './historial';
 import * as resultsActions from '../actions/resultsActions';
 import '../css/detailsSideBar.css';
 
@@ -113,6 +114,26 @@ class DetailsSidebar extends Component
         appointment_modal.style.display = "block";
     }
 
+    createAppointmentHanlder = () => {
+        historial.push('/',{
+            action:"add"
+        })
+    }
+
+    deletePacient = async () => {
+        if(window.confirm("seguro que quiere eliminar al paciente?, esta accion no se puede deshacer"))
+        {
+            const forma = new FormData();
+            forma.append("uuid",this.data.uuid);
+
+            const request = new Request("http://caritasong.000webhostapp.com/php/deletePacient.php",{method:'POST',body:forma});
+
+            await fetch(request);
+            this.closeSelf(0);
+            this.props.resetStore();
+        }
+    }
+
     render()
     {
         const { selected_result } = this.props.resultsReducer;
@@ -122,8 +143,8 @@ class DetailsSidebar extends Component
             this.data = this.props.resultsReducer.results[selected_result];
             Object.keys(this.data.appointments).forEach(a => {
                 appointments_list.push(
-                    <div created_on={a} onClick={this.setSelectedAppointment} className="d-submenu-option submenu-appoinment">
-                        <h3 key={a} className="d-submenu-option-text"><span className="d-submenu-option-label">{this.getProperAppointmentName(a,true)}</span></h3>
+                    <div key={a} created_on={a} onClick={this.setSelectedAppointment} className="d-submenu-option submenu-appoinment">
+                        <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">{this.getProperAppointmentName(a,true)}</span></h3>
                     </div>
                 )
             })
@@ -132,62 +153,72 @@ class DetailsSidebar extends Component
             <React.Fragment>
                 <AppointmentModal data={this.state.selected_appointment} date_name_fnc={this.getProperAppointmentName}/>
                 <div id="d-sidebar">
-                    <div id="d-menu-title">
-                        <h2 id="d-title">{this.data.name}</h2>
-                        <i onClick={this.closeSelf} className="fas fa-chevron-circle-right"></i>
+                    <div id="d-sidebar-top-content">
+                        <div id="d-menu-title">
+                            <h2 id="d-title">{this.data.name}</h2>
+                            <i onClick={this.closeSelf} className="fas fa-chevron-circle-right"></i>
+                        </div>
+                        <div className="d-menu-option" onClick={e => {this.displayBTNClicked(e,"data",".5em 0 .5em")}} closes="datos-submenu" >
+                            <h3 className="d-menu-option-text">Datos</h3>
+                            <i className="fas fa-caret-left"></i>
+                        </div>
+                        <div id="datos-submenu" className="d-submenu">
+                            <div className="d-submenu-option">
+                                <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Nombre: </span>{this.data.name}</h3>
+                                <i closes="editor-name" onClick={e => {this.displayBTNClicked(e,"edit_name","1em 0")}} className="fas fa-pen"></i>
+                            </div>
+                            <div id="editor-name" className="edit-attrib-submenu">
+                                <input for-attrib="name" onKeyDown={this.updatePacientData} type="text" placeholder="Nombre" className="edit-attrib-input"/>
+                            </div>
+                            <div className="d-submenu-option">
+                                <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Direccion: </span>{this.data.address}</h3>
+                                <i closes="editor-address" onClick={e => {this.displayBTNClicked(e,"edit_address","1em 0")}} className="fas fa-pen"></i>
+                            </div>
+                            <div id="editor-address" className="edit-attrib-submenu">
+                                <input for-attrib="address" onKeyDown={this.updatePacientData} type="text" placeholder="Direccion" className="edit-attrib-input"/>
+                            </div>
+                            <div className="d-submenu-option">
+                                <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Edad: </span>{this.data.age}</h3>
+                                <i closes="editor-age" onClick={e => {this.displayBTNClicked(e,"edit_age","1em 0")}} className="fas fa-pen"></i>
+                            </div>
+                            <div id="editor-age" className="edit-attrib-submenu">
+                                <input for-attrib="age" onKeyDown={this.updatePacientData} type="text" placeholder="Edad" className="edit-attrib-input"/>
+                            </div>
+                            <div className="d-submenu-option">
+                                <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Telefono: </span>{this.data.phone}</h3>
+                                <i closes="editor-phone" onClick={e => {this.displayBTNClicked(e,"edit_phone","1em 0")}} className="fas fa-pen"></i>
+                            </div>
+                            <div id="editor-phone" className="edit-attrib-submenu">
+                                <input for-attrib="phone" onKeyDown={this.updatePacientData} type="text" placeholder="Telefono" className="edit-attrib-input"/>
+                            </div>
+                            <div className="d-submenu-option">
+                                <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Genero: </span>{this.data.gender===0 ? "Hombre" : "Mujer"}</h3>
+                                <i closes="editor-gender" onKeyDown={this.updatePacientData} onClick={e => {this.displayBTNClicked(e,"edit_gender","1em 0")}} className="fas fa-pen"></i>
+                            </div>
+                            <div id="editor-gender" className="edit-attrib-submenu">
+                                <input for-attrib="gender" type="text" placeholder="Genero" className="edit-attrib-input"/>
+                            </div>
+                            <div className="d-submenu-option">
+                                <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Primera visita: </span>{this.data.first_seen}</h3>
+                            </div>
+                        </div>
+                        <div onClick={e => {this.displayBTNClicked(e,"data",".5em 0 .5em")}} closes={"consultas-submenu"} className="d-menu-option">
+                            <h3 className="d-menu-option-text">Consultas</h3>
+                            <i className="fas fa-caret-left"></i>
+                        </div>
+                        <div id="consultas-submenu" className="d-submenu">
+                            {appointments_list}
+                        </div>
                     </div>
-                    <div onClick={e => {this.displayBTNClicked(e,"data",".5em 0 .5em")}} closes="datos-submenu" className="d-menu-option">
-                        <h3 className="d-menu-option-text">Datos</h3>
-                        <i className="fas fa-caret-left"></i>
-                    </div>
-                    <div id="datos-submenu" className="d-submenu">
-                        <div className="d-submenu-option">
-                            <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Nombre: </span>{this.data.name}</h3>
-                            <i closes="editor-name" onClick={e => {this.displayBTNClicked(e,"edit_name","1em 0")}} className="fas fa-pen"></i>
+                    <div id="d-sidebar-controls">
+                        <div onClick={this.createAppointmentHanlder} id="new-consulta-btn" className="d-sidebar-controls-btn" >
+                            <h4 id="new-consulta-btn-text">Agregar consulta</h4>
+                            <i className="fas fa-plus"></i>
                         </div>
-                        <div id="editor-name" className="edit-attrib-submenu">
-                            <input for-attrib="name" onKeyDown={this.updatePacientData} type="text" placeholder="Nombre" className="edit-attrib-input"/>
-                        </div>
-                        <div className="d-submenu-option">
-                            <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Direccion: </span>{this.data.address}</h3>
-                            <i closes="editor-address" onClick={e => {this.displayBTNClicked(e,"edit_address","1em 0")}} className="fas fa-pen"></i>
-                        </div>
-                        <div id="editor-address" className="edit-attrib-submenu">
-                            <input for-attrib="address" onKeyDown={this.updatePacientData} type="text" placeholder="Direccion" className="edit-attrib-input"/>
-                        </div>
-                        <div className="d-submenu-option">
-                            <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Edad: </span>{this.data.age}</h3>
-                            <i closes="editor-age" onClick={e => {this.displayBTNClicked(e,"edit_age","1em 0")}} className="fas fa-pen"></i>
-                        </div>
-                        <div id="editor-age" className="edit-attrib-submenu">
-                            <input for-attrib="age" onKeyDown={this.updatePacientData} type="text" placeholder="Edad" className="edit-attrib-input"/>
-                        </div>
-                        <div className="d-submenu-option">
-                            <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Telefono: </span>{this.data.phone}</h3>
-                            <i closes="editor-phone" onClick={e => {this.displayBTNClicked(e,"edit_phone","1em 0")}} className="fas fa-pen"></i>
-                        </div>
-                        <div id="editor-phone" className="edit-attrib-submenu">
-                            <input for-attrib="phone" onKeyDown={this.updatePacientData} type="text" placeholder="Telefono" className="edit-attrib-input"/>
-                        </div>
-                        <div className="d-submenu-option">
-                            <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Genero: </span>{this.data.gender===0 ? "Hombre" : "Mujer"}</h3>
-                            <i closes="editor-gender" onKeyDown={this.updatePacientData} onClick={e => {this.displayBTNClicked(e,"edit_gender","1em 0")}} className="fas fa-pen"></i>
-                        </div>
-                        <div id="editor-gender" className="edit-attrib-submenu">
-                            <input for-attrib="gender" type="text" placeholder="Genero" className="edit-attrib-input"/>
-                        </div>
-                        <div className="d-submenu-option">
-                            <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Primera visita: </span>{this.data.first_seen}</h3>
+                        <div onClick={this.deletePacient} id="delete-pacient-btn" className="d-sidebar-controls-btn" >
+                            <h4 id="delete-pacient-btn-text">Borrar paciente</h4>
                         </div>
                     </div>
-                    <div onClick={e => {this.displayBTNClicked(e,"data",".5em 0 .5em")}} closes={"consultas-submenu"} className="d-menu-option">
-                        <h3 className="d-menu-option-text">Consultas</h3>
-                        <i className="fas fa-caret-left"></i>
-                    </div>
-                    <div id="consultas-submenu" className="d-submenu">
-                        {appointments_list}
-                    </div>
-                    <div id="new-consulta-btn"></div>
                 </div>
             </React.Fragment>
         )

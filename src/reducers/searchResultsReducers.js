@@ -20,6 +20,11 @@ export default function(state=initialState,action)
         case "UPDATE_SELECTED_RESULT":
             state.results[state.selected_result] = action.new_data;
             return state;
+        case "RESET":
+            return{
+                results: [],
+                selected_result: null
+            }
         default:
             return state;
             
