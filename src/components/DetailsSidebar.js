@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AppointmentModal from './AppointmentModal';
 import { connect } from 'react-redux';
 import * as resultsActions from '../actions/resultsActions';
 import '../css/detailsSideBar.css';
@@ -12,6 +13,8 @@ class DetailsSidebar extends Component
         super();
         this.showing_bools = {
             data: false,
+            consultas: false,
+            edit_name: false,
             edit_address: false,
             edit_age: false,
             edit_phone: false,
@@ -23,10 +26,12 @@ class DetailsSidebar extends Component
             age: 0,
             phone: "",
             gender: 1,
-            first_seen: ""
+            first_seen: "",
+            appointments: {}
         }
         this.state = {
-            updates: 0 //esto es completamente inutil, su unico porpocito es forzar el componente a volver a renderizar
+            updates: 0, //esto es completamente inutil, su unico porpocito es forzar el componente a volver a renderizar
+            selected_appointment: {}
         }
     }
 
@@ -60,6 +65,14 @@ class DetailsSidebar extends Component
         element.style.width = "0";
     }
 
+    getProperAppointmentName = (timestamp,short=false) => {
+        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Augosto", "Septiembre", "Octubre", "Noviembre", "Diciember"];
+        const date_object = new Date(timestamp);
+        return !short ? `Consulta del ${date_object.getDay()} de ${monthNames[date_object.getMonth()]} del ${date_object.getFullYear()} a las ${date_object.getHours()}:${date_object.getMinutes()}:${date_object.getSeconds()}` : 
+            `${monthNames[date_object.getMonth()]} ${date_object.getDay()}, ${date_object.getFullYear()} (${date_object.getHours()}:${date_object.getMinutes()})`;
+    }
+
     updatePacientData = async e => {
         if(e.key === "Enter")
         {
@@ -68,6 +81,7 @@ class DetailsSidebar extends Component
             
             let forma = new FormData();
             forma.append("value_name",attrib);
+            forma.append('value_type',attrib!=='age' ? 'string' : 'int');
             forma.append("new_value",element.value);
             forma.append("uuid",this.data.uuid);
 
@@ -89,62 +103,93 @@ class DetailsSidebar extends Component
         }
     }
 
+    setSelectedAppointment = e => {
+        const element = e.currentTarget;
+        const appoinment = element.getAttribute("created_on");
+        this.setState({
+            selected_appointment: this.data.appointments[appoinment]
+        })
+        const appointment_modal = document.getElementById("modal-background");
+        appointment_modal.style.display = "block";
+    }
+
     render()
     {
         const { selected_result } = this.props.resultsReducer;
+        let appointments_list = [];
         if(selected_result !== null)
         {
             this.data = this.props.resultsReducer.results[selected_result];
+            Object.keys(this.data.appointments).forEach(a => {
+                appointments_list.push(
+                    <div created_on={a} onClick={this.setSelectedAppointment} className="d-submenu-option submenu-appoinment">
+                        <h3 key={a} className="d-submenu-option-text"><span className="d-submenu-option-label">{this.getProperAppointmentName(a,true)}</span></h3>
+                    </div>
+                )
+            })
         }
         return(
-            <div id="d-sidebar">
-                <div id="d-menu-title">
-                    <h2 id="d-title">{this.data.name}</h2>
-                    <i onClick={this.closeSelf} className="fas fa-chevron-circle-right"></i>
+            <React.Fragment>
+                <AppointmentModal data={this.state.selected_appointment} date_name_fnc={this.getProperAppointmentName}/>
+                <div id="d-sidebar">
+                    <div id="d-menu-title">
+                        <h2 id="d-title">{this.data.name}</h2>
+                        <i onClick={this.closeSelf} className="fas fa-chevron-circle-right"></i>
+                    </div>
+                    <div onClick={e => {this.displayBTNClicked(e,"data",".5em 0 .5em")}} closes="datos-submenu" className="d-menu-option">
+                        <h3 className="d-menu-option-text">Datos</h3>
+                        <i className="fas fa-caret-left"></i>
+                    </div>
+                    <div id="datos-submenu" className="d-submenu">
+                        <div className="d-submenu-option">
+                            <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Nombre: </span>{this.data.name}</h3>
+                            <i closes="editor-name" onClick={e => {this.displayBTNClicked(e,"edit_name","1em 0")}} className="fas fa-pen"></i>
+                        </div>
+                        <div id="editor-name" className="edit-attrib-submenu">
+                            <input for-attrib="name" onKeyDown={this.updatePacientData} type="text" placeholder="Nombre" className="edit-attrib-input"/>
+                        </div>
+                        <div className="d-submenu-option">
+                            <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Direccion: </span>{this.data.address}</h3>
+                            <i closes="editor-address" onClick={e => {this.displayBTNClicked(e,"edit_address","1em 0")}} className="fas fa-pen"></i>
+                        </div>
+                        <div id="editor-address" className="edit-attrib-submenu">
+                            <input for-attrib="address" onKeyDown={this.updatePacientData} type="text" placeholder="Direccion" className="edit-attrib-input"/>
+                        </div>
+                        <div className="d-submenu-option">
+                            <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Edad: </span>{this.data.age}</h3>
+                            <i closes="editor-age" onClick={e => {this.displayBTNClicked(e,"edit_age","1em 0")}} className="fas fa-pen"></i>
+                        </div>
+                        <div id="editor-age" className="edit-attrib-submenu">
+                            <input for-attrib="age" onKeyDown={this.updatePacientData} type="text" placeholder="Edad" className="edit-attrib-input"/>
+                        </div>
+                        <div className="d-submenu-option">
+                            <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Telefono: </span>{this.data.phone}</h3>
+                            <i closes="editor-phone" onClick={e => {this.displayBTNClicked(e,"edit_phone","1em 0")}} className="fas fa-pen"></i>
+                        </div>
+                        <div id="editor-phone" className="edit-attrib-submenu">
+                            <input for-attrib="phone" onKeyDown={this.updatePacientData} type="text" placeholder="Telefono" className="edit-attrib-input"/>
+                        </div>
+                        <div className="d-submenu-option">
+                            <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Genero: </span>{this.data.gender===0 ? "Hombre" : "Mujer"}</h3>
+                            <i closes="editor-gender" onKeyDown={this.updatePacientData} onClick={e => {this.displayBTNClicked(e,"edit_gender","1em 0")}} className="fas fa-pen"></i>
+                        </div>
+                        <div id="editor-gender" className="edit-attrib-submenu">
+                            <input for-attrib="gender" type="text" placeholder="Genero" className="edit-attrib-input"/>
+                        </div>
+                        <div className="d-submenu-option">
+                            <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Primera visita: </span>{this.data.first_seen}</h3>
+                        </div>
+                    </div>
+                    <div onClick={e => {this.displayBTNClicked(e,"data",".5em 0 .5em")}} closes={"consultas-submenu"} className="d-menu-option">
+                        <h3 className="d-menu-option-text">Consultas</h3>
+                        <i className="fas fa-caret-left"></i>
+                    </div>
+                    <div id="consultas-submenu" className="d-submenu">
+                        {appointments_list}
+                    </div>
+                    <div id="new-consulta-btn"></div>
                 </div>
-                <div onClick={e => {this.displayBTNClicked(e,"data",".5em 0 .5em")}} closes="datos-submenu" className="d-menu-option">
-                    <h3 className="d-menu-option-text">Datos</h3>
-                    <i className="fas fa-caret-left"></i>
-                </div>
-                <div id="datos-submenu" className="d-submenu">
-                    <div className="d-submenu-option">
-                        <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Direccion: </span>{this.data.address}</h3>
-                        <i closes="editor-address" onClick={e => {this.displayBTNClicked(e,"edit_address","1em 0")}} className="fas fa-pen"></i>
-                    </div>
-                    <div id="editor-address" className="edit-attrib-submenu">
-                        <input for-attrib="address" onKeyDown={this.updatePacientData} type="text" placeholder="Direccion" className="edit-attrib-input"/>
-                    </div>
-                    <div className="d-submenu-option">
-                        <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Edad: </span>{this.data.age}</h3>
-                        <i closes="editor-age" onClick={e => {this.displayBTNClicked(e,"edit_age","1em 0")}} className="fas fa-pen"></i>
-                    </div>
-                    <div id="editor-age" className="edit-attrib-submenu">
-                        <input for-attrib="age" onKeyDown={this.updatePacientData} type="text" placeholder="Edad" className="edit-attrib-input"/>
-                    </div>
-                    <div className="d-submenu-option">
-                        <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Telefono: </span>{this.data.phone}</h3>
-                        <i closes="editor-phone" onClick={e => {this.displayBTNClicked(e,"edit_phone","1em 0")}} className="fas fa-pen"></i>
-                    </div>
-                    <div id="editor-phone" className="edit-attrib-submenu">
-                        <input for-attrib="phone" onKeyDown={this.updatePacientData} type="text" placeholder="Telefono" className="edit-attrib-input"/>
-                    </div>
-                    <div className="d-submenu-option">
-                        <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Genero: </span>{this.data.gender===0 ? "Hombre" : "Mujer"}</h3>
-                        <i closes="editor-gender" onKeyDown={this.updatePacientData} onClick={e => {this.displayBTNClicked(e,"edit_gender","1em 0")}} className="fas fa-pen"></i>
-                    </div>
-                    <div id="editor-gender" className="edit-attrib-submenu">
-                        <input for-attrib="gender" type="text" placeholder="Genero" className="edit-attrib-input"/>
-                    </div>
-                    <div className="d-submenu-option">
-                        <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Primera visita: </span>{this.data.first_seen}</h3>
-                    </div>
-                </div>
-                <div className="d-menu-option">
-                    <h3 className="d-menu-option-text">Consultas</h3>
-                    <i className="fas fa-caret-left"></i>
-                </div>
-                <div id="new-consulta-btn"></div>
-            </div>
+            </React.Fragment>
         )
     }
 }

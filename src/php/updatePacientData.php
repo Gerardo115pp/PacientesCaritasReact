@@ -10,7 +10,8 @@
     $stmt = $conn->stmt_init();
     if(mysqli_stmt_prepare($stmt, $sql))
     {
-        mysqli_stmt_bind_param($stmt,'ss',$new_value,$uudi);
+        $value_types =  ($_POST["value_type"]==="string" ? "s" : "d")."s";
+        mysqli_stmt_bind_param($stmt,$value_types,$new_value,$uudi);
         mysqli_stmt_execute($stmt);
     }
 ?>

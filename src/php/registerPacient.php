@@ -4,13 +4,13 @@
     $json_string = str_replace('&#34;','"',$json_string);
     $json_data = json_decode($json_string, true);
     $pacient_uuid = sha1($json_data["name"].date("d/m/y--H:U")); 
-    $data_path = "../pacients/$pacient_uuid/first_meeting.json";
+    $data_path = "../pacients/$pacient_uuid/".date("Y-m-d (H_i_s)").".json";
     if(is_dir("../pacients") === false)
     {
         mkdir("../pacients");
     }
     mkdir("../pacients/$pacient_uuid");
-    file_put_contents($data_path,$json_string);
+    file_put_contents($data_path,addDateValue($json_string));
 
     include "connect.php";
     $conn = GetConnection();
@@ -33,6 +33,13 @@
             mysqli_stmt_bind_param($stmt,"sssisssss",$uuid,$name,$address,$age,$phone,$gender,$sound[0], $sound[1], $sound[2]);
             mysqli_stmt_execute($stmt);
         }
+    }
+
+    function addDateValue($json_string)
+    {
+        $json_data = json_decode($json_string,true);
+        $json_data['created_on'] = date("Y-m-d H:i:s");
+        return json_encode($json_data);
     }
 
     function createFirstMedicalReview($json_data, $uuid, $conn, $path)

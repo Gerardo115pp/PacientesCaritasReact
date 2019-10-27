@@ -32,6 +32,13 @@ class SearchBar extends Component
 
     }
 
+    enterPressListener = e => {
+        if(e.key === "Enter")
+        {
+            this.sendSearch();
+        }
+    }
+
     goToMain = () =>{
         historial.push("/");
     }
@@ -39,7 +46,7 @@ class SearchBar extends Component
     render(){
         return(
             <div id="search-bar-container">
-                <input onChange={ this.writeingOnSearchBarHandler } placeholder="Nombre del paciente.." type="text" id="search-bar-input"/>
+                <input onKeyDown={this.enterPressListener} onChange={ this.writeingOnSearchBarHandler } placeholder="Nombre del paciente.." type="text" id="search-bar-input"/>
                 <div id="search-bar-controls">
                     <span onClick={ this.sendSearch } name='search-btn' className="seatch-bar-btn"><i className="fas fa-search"></i></span>
                     <span name='settings-btn' className="seatch-bar-btn"><i className="fas fa-tasks"></i></span>

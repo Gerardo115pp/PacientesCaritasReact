@@ -9,7 +9,7 @@ export default function(state=initialState,action)
     {
         case "SET_RESULTS":
             return{
-                ...state,
+                selected_result: null,
                 results: action.results
             }
         case "SET_SELECTED_RESULT":
