@@ -20,7 +20,7 @@ class SearchingPage extends Component
             })
         }
         return(
-            <React.Fragment>
+            <div id="searching-page">
                 <DetailsSidebar />
                 <StdHeader />
                 <div id="view-title"><span className="view-title-container">Buscar Pacientes</span></div>
@@ -32,7 +32,7 @@ class SearchingPage extends Component
                         {search_results}
                     </div>
                 </div>
-            </React.Fragment>
+            </div>
         )
     }
 }

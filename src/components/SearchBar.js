@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as resultsActions from '../actions/resultsActions';
-import historial from './historial';
 import '../css/SearchBar.css';
 
 class SearchBar extends Component
@@ -37,10 +36,6 @@ class SearchBar extends Component
         {
             this.sendSearch();
         }
-    }
-
-    goToMain = () =>{
-        historial.push("/");
     }
 
     render(){

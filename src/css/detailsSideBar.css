@@ -264,6 +264,23 @@
 }
 
 
+/*----------  Microsoft edge es estupido  ----------*/
+
+@supports (-ms-flow-from: thingy) { /* Edge only */
+
+    #appointment-info{
+        justify-content: space-around !important;
+        
+    }
+
+    #consulta-title-container{
+        justify-content: space-around !important;
+    }
+
+}
+
+
+
 /*=============================================
 =            paciente controls            =
 =============================================*/
