@@ -5,7 +5,6 @@ import historial from './historial';
 import * as resultsActions from '../actions/resultsActions';
 import '../css/detailsSideBar.css';
 
-//TODO: debo averiguar porque el componente no se modifica cuando actualizo el store de redux, para ya no tener que forzar el renderizado
 
 class DetailsSidebar extends Component
 {
@@ -31,7 +30,6 @@ class DetailsSidebar extends Component
             appointments: {}
         }
         this.state = {
-            updates: 0, //esto es completamente inutil, su unico porpocito es forzar el componente a volver a renderizar
             selected_appointment: {}
         }
     }
@@ -97,9 +95,6 @@ class DetailsSidebar extends Component
                 this.props.updateSelectedResult(this.data);
                 const closingBTN = document.querySelector(`i[closes=${element.parentElement.getAttribute("id")}]`);
                 closingBTN.click();
-                this.setState({
-                    updates: ++updates
-                })
             }    
         }
     }

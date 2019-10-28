@@ -1,7 +1,5 @@
 <?php
 
-    //TODO: debo agregar la opcion de que si el name array contiene en su primer parametro 'todos', se regresen todos los registros
-    //TODO: el programa tiene un bug cuando el resultado no es ecnontrado, esto se debe corregir.
     
     include 'connect.php';
     include 'nameSound.php';
