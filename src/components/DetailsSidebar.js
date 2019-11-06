@@ -89,7 +89,6 @@ class DetailsSidebar extends Component
             let response  = await fetch(request);
             if(response.status === 200)
             {
-                let { updates } = this.state;
                 console.log("actualizado");
                 this.data[attrib] = element.value;
                 this.props.updateSelectedResult(this.data);

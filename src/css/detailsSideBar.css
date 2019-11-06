@@ -264,6 +264,20 @@
 }
 
 
+
+/*----------  controls  ----------*/
+
+#consulta-modal-controls
+{
+    display: flex;
+    padding: 2% 0;
+    justify-content: center;
+}
+
+#consulta-modal-controls .std-btn{
+    width: 14%;
+}
+
 /*----------  Microsoft edge es estupido  ----------*/
 
 @supports (-ms-flow-from: thingy) { /* Edge only */

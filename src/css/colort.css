@@ -1,4 +1,6 @@
 :root{
+    --dimer: hsla(0,0%,100%,.05);
+    --opt-color: #607C80;
     --white-blue: #BDEEFF;
     --blue: #476AFF;
     --dim-blue: #418DE8;
@@ -10,4 +12,6 @@
     --grey-font: rgba(161, 161, 161, 0.85);
     --darker-font: rgb(100,100,100);
     --danger: rgb(245, 68, 68);
+    --btn-radio: 5px;
+    --container-radio: 15px;
 }

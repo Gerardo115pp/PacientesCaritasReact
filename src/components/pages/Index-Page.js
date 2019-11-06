@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import RegisterHeader from "../RegisterHeader";
 import StdBtn from "../sntBTN";
 import SideBar from "../SideBar";
+import PrescModal from '../PrescriptionMolda';
 import { connect } from 'react-redux';
 import * as resultsActions from '../../actions/resultsActions';
 import '../../css/IndexPage.css';
@@ -84,7 +85,7 @@ class IndexPage extends Component
             age:this.user_to_appoint.age,
             gender:this.user_to_appoint.gender,
             phone:this.user_to_appoint.phone,
-            address:this.user_to_appoint.address
+            address:this.user_to_appoint.address,
         }
 
         return user_data;
@@ -190,15 +191,41 @@ class IndexPage extends Component
         })
     }
 
+    displayPrescModal = () => {
+        if(this.state.finished)
+        {
+            const element = document.getElementById('presc-modal-background');
+            element.style.display = 'flex';
+        }
+        else
+        {
+            alert("Porfavor agregue cualquier dato en el campo de nombre, es necesario como identificador.");
+        }
+    }
+
+    addPrescToUserData = async (presc) => {
+        if(presc !== null)
+        {
+            const { user_data } = this.state;
+            user_data["presc"] = presc;
+            await this.setState({
+            user_data: user_data
+        })
+        }
+        this.saveData();
+    }
+
     saveData = () => {
         if(this.state.finished && this.state.action === 'register')
         {
             const { user_data } = this.state;
             const stringed_json = JSON.stringify(user_data);
-            
+
+
             let forma =  new FormData();
             forma.append('json',stringed_json);
             const request = new Request('http://caritasong.000webhostapp.com/php/registerPacient.php',{method: 'POST', body: forma})
+            
             fetch(request)
                 .then(promise => {
                     if(promise.ok)
@@ -226,10 +253,6 @@ class IndexPage extends Component
                     }
                 })
         }
-        else
-        {
-            alert("Porfavor agregue cualquier dato en el campo de nombre, es necesario como identificador.");
-        }
     }
 
     gotToTag = key => {
@@ -241,10 +264,11 @@ class IndexPage extends Component
     render(){
         const content = this.viewSelector();
         const need_btn = (this.state.current !== 3) ? (<StdBtn callback={this.controlBTNHandler} operation='+' text="Siguiente"/>) :
-                         (<StdBtn callback={this.saveData} operation='+' text="Guardar"/>);
+                         (<StdBtn callback={this.displayPrescModal} operation='+' text="Guardar"/>);
         return(
             <React.Fragment>
                 <SideBar/>
+                <PrescModal callback={this.addPrescToUserData}/>
                 <RegisterHeader callback={this.gotToTag} current={this.state.current}/>
                 <div id="inputs-container">
                     {content}
