@@ -36,7 +36,6 @@ class DetailsSidebar extends Component
 
     displayBTNClicked = (e,menu_name,padding) => {
         const element = e.currentTarget;
-        console.log(element);
         const submenu = document.getElementById(element.getAttribute("closes"));
         let rotation = "";
         if(this.showing_bools[menu_name])
@@ -77,11 +76,29 @@ class DetailsSidebar extends Component
         {
             const element = e.currentTarget;
             const attrib = element.getAttribute('for-attrib');
+            let new_value = element.value;
+
+            if (attrib === "gender")
+            {
+                if(new_value.toLowerCase() === "hombre")
+                {
+                    console.log(new_value.toLowerCase())
+                    new_value = "0";
+                }
+                else if(new_value.toLowerCase() === "mujer")
+                {
+                    new_value = "1";
+                }
+                else
+                {
+                    return;
+                }
+            }
             
             let forma = new FormData();
             forma.append("value_name",attrib);
             forma.append('value_type',attrib!=='age' ? 'string' : 'int');
-            forma.append("new_value",element.value);
+            forma.append("new_value",new_value);
             forma.append("uuid",this.data.uuid);
 
             const request = new Request("http://caritasong.000webhostapp.com/php/updatePacientData.php",{method:"POST",body:forma});
@@ -89,8 +106,7 @@ class DetailsSidebar extends Component
             let response  = await fetch(request);
             if(response.status === 200)
             {
-                console.log("actualizado");
-                this.data[attrib] = element.value;
+                this.data[attrib] = new_value;
                 this.props.updateSelectedResult(this.data);
                 const closingBTN = document.querySelector(`i[closes=${element.parentElement.getAttribute("id")}]`);
                 closingBTN.click();
@@ -186,11 +202,11 @@ class DetailsSidebar extends Component
                                 <input for-attrib="phone" onKeyDown={this.updatePacientData} type="text" placeholder="Telefono" className="edit-attrib-input"/>
                             </div>
                             <div className="d-submenu-option">
-                                <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Genero: </span>{this.data.gender===0 ? "Hombre" : "Mujer"}</h3>
-                                <i closes="editor-gender" onKeyDown={this.updatePacientData} onClick={e => {this.displayBTNClicked(e,"edit_gender","1em 0")}} className="fas fa-pen"></i>
+                                <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Genero: </span>{ parseInt( this.data.gender, 10) === 0 ? "Hombre" : "Mujer" }</h3>
+                                <i closes="editor-gender" onClick={e => {this.displayBTNClicked(e,"edit_gender","1em 0")}} className="fas fa-pen"></i>
                             </div>
                             <div id="editor-gender" className="edit-attrib-submenu">
-                                <input for-attrib="gender" type="text" placeholder="Genero" className="edit-attrib-input"/>
+                                <input for-attrib="gender" onKeyDown={this.updatePacientData} type="text" placeholder="Genero" className="edit-attrib-input"/>
                             </div>
                             <div className="d-submenu-option">
                                 <h3 className="d-submenu-option-text"><span className="d-submenu-option-label">Primera visita: </span>{this.data.first_seen}</h3>
