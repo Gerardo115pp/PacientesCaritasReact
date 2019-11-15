@@ -40,13 +40,18 @@ class SearchBar extends Component
 
     render(){
         return(
-            <div id="search-bar-container">
-                <input onKeyDown={this.enterPressListener} onChange={ this.writeingOnSearchBarHandler } placeholder="Nombre del paciente.." type="text" id="search-bar-input"/>
-                <div id="search-bar-controls">
-                    <span onClick={ this.sendSearch } name='search-btn' className="seatch-bar-btn"><i className="fas fa-search"></i></span>
-                    <span name='settings-btn' className="seatch-bar-btn"><i className="fas fa-tasks"></i></span>
+            <React.Fragment>
+                <div id="search-bar-container">
+                    <input onKeyDown={this.enterPressListener} onChange={ this.writeingOnSearchBarHandler } placeholder="Nombre del paciente.." type="text" id="search-bar-input"/>
+                    <div id="search-bar-controls">
+                        <span onClick={ this.sendSearch } name='search-btn' className="seatch-bar-btn"><i className="fas fa-search"></i></span>
+                        <span name='settings-btn' className="seatch-bar-btn"><i className="fas fa-tasks"></i></span>
+                    </div>
                 </div>
-            </div>
+                <div id="advance-search-container">
+                    
+                </div>
+            </React.Fragment>
         )
     }
 }
