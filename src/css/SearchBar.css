@@ -19,6 +19,22 @@
 
 @import url('colort.css');
 
+/*=============================================
+=            padded search bar            =
+=============================================*/
+
+.padded-searchbar-container{
+    display: flex;
+    margin: 7% 0 0;
+    justify-content: center;
+}
+
+
+/*=============================================
+=            Searchbar            =
+=============================================*/
+
+
  #search-bar-container{
     display: flex; 
     width: 35%;
@@ -33,6 +49,11 @@
     padding: 3%;
 
 }
+
+
+/*----------  Controls  ----------*/
+
+
 
 #search-bar-controls{
     width: 20%;
@@ -58,4 +79,64 @@
 
 .seatch-bar-btn:last-child{
     border-radius: 0 15px 15px 0;
+}
+
+
+/*=============================================
+=            Advanced Search            =
+=============================================*/
+
+.dropmenu-container{
+    display: none;
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+}
+
+#advanced-search-container{
+    width: 29%;
+    background-color: white;
+    margin: 0 auto;
+    padding: 1%;
+    border-radius: 0 0 var(--container-radio) var(--container-radio);
+    box-shadow: 0px 5px 8px 0px var(--light-grey-font);
+}
+
+
+/*----------  titulo  ----------*/
+
+#advanced-search-title{
+    font-family: 'Roboto Mono';
+    color: var(--darker-font);
+    margin: 0 0 4%;
+}
+
+
+/*----------  filters  ----------*/
+
+#advanced-search-filters{
+    width: 90%;
+    margin: 0 auto;
+}
+
+.advanced-search-filter{
+    margin: 3% 0 0;
+}
+
+.advanced-search-filter label{
+    font-family: 'Raleway';
+    color: var(--dim-blue);
+}
+
+.advanced-search-filter input, .advanced-search-filter select{
+    width: 70%;
+    background-color: var(--dim-background);
+    margin: 0 0 0 2%;
+    padding: 2%;
+    border: none;
+    border-radius: var(--btn-radio);
+}
+
+.advanced-search-filter select{
+    border-radius: var(--btn-radio) 0 0  var(--btn-radio);
 }

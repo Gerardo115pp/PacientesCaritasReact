@@ -25,9 +25,7 @@ class SearchingPage extends Component
                 <StdHeader />
                 <div id="view-title"><span className="view-title-container">Buscar Pacientes</span></div>
                 <div id="page-container">
-                    <div className="padded-searchbar-container">
-                        <SearchBar />
-                    </div>
+                    <SearchBar />
                     <div id="results-container">
                         {search_results}
                     </div>

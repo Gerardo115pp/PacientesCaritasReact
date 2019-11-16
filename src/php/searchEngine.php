@@ -53,7 +53,36 @@
         }
     }
     $conn->close();
+    if(isset($_POST['is_advanced']))
+    {
+        $filters = filter_var($_POST["filters"],FILTER_SANITIZE_STRING);
+        $filters = str_replace('&#34;','"',$filters);
+        $filters = json_decode($filters,true);
+        $results_array = filterResults($results_array,$filters);
+    }
     echo json_encode($results_array);
+
+    function filterResults($results,$filters)
+    {
+        $filtered_results = [];
+        for ($h=0; $h < count($results); $h++) 
+        {
+            $accept = true;
+            foreach ($filters as $key => $value) 
+            {
+                if($results[$h][$key] != $value)
+                {
+                    $accept = false;
+                    break;
+                }
+            }
+            if($accept)
+            {
+                array_push($filtered_results,$results[$h]);
+            }
+        }
+        return $filtered_results;
+    }
 
     function getAppointments($uuid)
     {
