@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Printable from './appointmentPrintable';
 import html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 
@@ -38,14 +39,16 @@ class AppointmentModal extends Component
     }
 
     makePdf = () => {
-        const element = document.getElementById('consulta-modal');
+        const element = document.getElementById('printable-container');
+        element.style.border = 'none';
         html2canvas(element)
             .then(canvas => {
                 const imgData = canvas.toDataURL("image/png");
                 const pdf = new jsPDF();
-                pdf.addImage(imgData,'PNG',0,0,210,297);
+                pdf.addImage(imgData,'PNG',0,0,210,200);
                 pdf.save("receta.pdf");
             });
+        element.removeAttribute('style');
     }
 
     render()
@@ -119,10 +122,7 @@ class AppointmentModal extends Component
                                 <h3 className="appointment-note-label">Padecimiento actual e interrogatorio por aparatos y sistemas</h3>
                                 <textarea cols="30" rows="10" value={data["pade"]} className="appointment-note" readOnly></textarea>
                             </div>
-                            <div className="appointment-note-container">
-                                <h3 className="appointment-note-label">Prescripcion</h3>
-                                <textarea cols="30" rows="10" value={(data["presc"] !== undefined) ? data["presc"] : "No hay prescipcion" } className="appointment-note" readOnly></textarea>
-                            </div>
+                            <Printable data={data}/>    
                         </div>
                     </div>
                     <div id="consulta-modal-controls">
